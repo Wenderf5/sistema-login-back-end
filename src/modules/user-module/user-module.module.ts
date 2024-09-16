@@ -4,10 +4,10 @@ import { SignInService } from './services/sign-in/sign-in.service';
 import { SignUpController } from './controllers/sign-up/sign-up.controller';
 import { SignUpService } from './services/sign-up/sign-up.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { user } from 'src/dataBase/entities/user.entity';
+import { User } from 'src/dataBase/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([user])],
+  imports: [TypeOrmModule.forFeature([User])],
   controllers: [SignInController, SignUpController],
   providers: [SignInService, SignUpService]
 })

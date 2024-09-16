@@ -1,20 +1,22 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { user } from 'src/dataBase/entities/user.entity';
+import { User } from 'src/dataBase/entities/user.entity';
 import { Repository } from 'typeorm';
+import { NewUserDto } from '../../controllers/sign-up/dto/new-user-dto/new-user-dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class SignUpService {
     constructor(
-        @InjectRepository(user)
-        private user_repository: Repository<user>
+        @InjectRepository(User)
+        private user_repository: Repository<User>
     ) { }
 
-    async newUser(): Promise<HttpStatus> {
+    async newUser(newUser: NewUserDto): Promise<HttpStatus> {
         try {
             await this.user_repository.save({
-                user_name: "fabiano",
-                password: "123"
+                user_name: newUser.user_name,
+                password: await bcrypt.hash(newUser.password, 10)
             });
             return HttpStatus.CREATED;
         } catch (error) {
