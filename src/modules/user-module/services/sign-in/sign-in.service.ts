@@ -5,7 +5,7 @@ import { User } from 'src/dataBase/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-const secret = "41g498712b87f1658cc6"
+const secret = "41g498712b87f1658cc6";
 
 @Injectable()
 export class SignInService {
