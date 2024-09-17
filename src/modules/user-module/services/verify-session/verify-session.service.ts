@@ -1,14 +1,16 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
-import { decode } from 'punycode';
-const secret = "41g498712b87f1658cc6";
 
 @Injectable()
 export class VerifySessionService {
+    constructor(
+        private config: ConfigService
+    ) { }
 
     async verifySession(body: any): Promise<HttpStatus> {
         const token = body.token;
-        const verify = await jwt.verify(token, secret, (error: Error) => {
+        const verify = await jwt.verify(token, this.config.get('JWT_SECRET'), (error: Error) => {
             if (error) {
                 return false;
             }

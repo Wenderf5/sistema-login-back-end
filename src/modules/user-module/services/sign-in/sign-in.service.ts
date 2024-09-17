@@ -5,13 +5,14 @@ import { User } from 'src/dataBase/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-const secret = "41g498712b87f1658cc6";
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SignInService {
     constructor(
         @InjectRepository(User)
-        private user_repository: Repository<User>
+        private user_repository: Repository<User>,
+        private config: ConfigService
     ) { }
 
     async signIn(user: UserDto): Promise<HttpStatus | {
@@ -28,7 +29,7 @@ export class SignInService {
         }
         const login = await bcrypt.compare(user.password, userdb.password);
         if (login === true) {
-            const token = await jwt.sign({ user_name: userdb.user_name }, secret);
+            const token = await jwt.sign({ user_name: userdb.user_name }, this.config.get('JWT_SECRET'));
             return {
                 code: HttpStatus.OK,
                 token: token
