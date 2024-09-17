@@ -9,7 +9,10 @@ export class SignInController {
     ) { }
 
     @Post('/sign-in')
-    SignIn(@Body() body: UserDto): Promise<HttpStatus> {
+    SignIn(@Body() body: UserDto): Promise<HttpStatus | {
+        code: HttpStatus,
+        token: string;
+    }> {
         return this.sign_in_service.signIn(body);
     }
 }

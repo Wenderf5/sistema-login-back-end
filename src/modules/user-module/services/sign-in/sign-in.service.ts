@@ -4,6 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/dataBase/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+const secret = "41g498712b87f1658cc6"
 
 @Injectable()
 export class SignInService {
@@ -12,7 +14,10 @@ export class SignInService {
         private user_repository: Repository<User>
     ) { }
 
-    async signIn(user: UserDto): Promise<HttpStatus> {
+    async signIn(user: UserDto): Promise<HttpStatus | {
+        code: HttpStatus,
+        token: string;
+    }> {
         const userdb = await this.user_repository.findOne({
             where: {
                 user_name: user.user_name
@@ -23,7 +28,11 @@ export class SignInService {
         }
         const login = await bcrypt.compare(user.password, userdb.password);
         if (login === true) {
-            return HttpStatus.OK;
+            const token = await jwt.sign({ user_name: userdb.user_name }, secret);
+            return {
+                code: HttpStatus.OK,
+                token: token
+            };
         } else {
             return HttpStatus.UNAUTHORIZED;
         }
