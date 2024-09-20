@@ -1,6 +1,7 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
 import { SignInService } from '../../services/sign-in/sign-in.service';
 import { UserDto } from './dto/user-dto/user-dto';
+import { Response } from 'express';
 
 @Controller()
 export class SignInController {
@@ -9,10 +10,7 @@ export class SignInController {
     ) { }
 
     @Post('/sign-in')
-    SignIn(@Body() body: UserDto): Promise<HttpStatus | {
-        code: HttpStatus,
-        token: string;
-    }> {
-        return this.sign_in_service.signIn(body);
+    SignIn(@Body() body: UserDto, @Res() res: Response): Promise<Response> {
+        return this.sign_in_service.signIn(body, res);
     }
 }

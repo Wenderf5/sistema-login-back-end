@@ -1,5 +1,6 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Req } from '@nestjs/common';
 import { VerifySessionService } from '../../services/verify-session/verify-session.service';
+import { Request } from 'express';
 
 @Controller()
 export class VerifySessionController {
@@ -7,8 +8,8 @@ export class VerifySessionController {
         private verify_session_service: VerifySessionService
     ) { }
 
-    @Post('/verify-session')
-    verifySession(@Body() body: any): Promise<HttpStatus> {
-        return this.verify_session_service.verifySession(body);
+    @Get('/verify-session')
+    verifySession(@Req() req: Request): Promise<HttpStatus> {
+        return this.verify_session_service.verifySession(req);
     }
 }

@@ -1,5 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Request } from 'express';
 import * as jwt from 'jsonwebtoken';
 
 @Injectable()
@@ -8,8 +9,11 @@ export class VerifySessionService {
         private config: ConfigService
     ) { }
 
-    async verifySession(body: any): Promise<HttpStatus> {
-        const token = body.token;
+    async verifySession(req: Request): Promise<HttpStatus> {
+        const token = req.cookies['auth_token'];
+        if (!token) {
+            return HttpStatus.UNAUTHORIZED;
+        }
         const verify = await jwt.verify(token, this.config.get('JWT_SECRET'), (error: Error) => {
             if (error) {
                 return false;

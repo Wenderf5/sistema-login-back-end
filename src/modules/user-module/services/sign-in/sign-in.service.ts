@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import { ConfigService } from '@nestjs/config';
+import { Response } from 'express';
 
 @Injectable()
 export class SignInService {
@@ -15,27 +16,25 @@ export class SignInService {
         private config: ConfigService
     ) { }
 
-    async signIn(user: UserDto): Promise<HttpStatus | {
-        code: HttpStatus,
-        token: string;
-    }> {
+    async signIn(body: UserDto, res: Response): Promise<Response> {
         const userdb = await this.user_repository.findOne({
             where: {
-                user_name: user.user_name
+                user_name: body.user_name
             }
         });
         if (!userdb) {
-            return HttpStatus.NOT_FOUND;
+            return res.status(HttpStatus.NOT_FOUND).send();
         }
-        const login = await bcrypt.compare(user.password, userdb.password);
+        const login = await bcrypt.compare(body.password, userdb.password);
         if (login === true) {
-            const token = await jwt.sign({ user_name: userdb.user_name }, this.config.get('JWT_SECRET'));
-            return {
-                code: HttpStatus.OK,
-                token: token
-            };
+            const token = jwt.sign({ user_name: userdb.user_name }, this.config.get('JWT_SECRET'));
+            return res.cookie('auth_token', token, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'strict',
+            }).status(HttpStatus.OK).send();
         } else {
-            return HttpStatus.UNAUTHORIZED;
+            return res.status(HttpStatus.UNAUTHORIZED).send();
         }
     }
 }
