@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserModuleModule } from './modules/user-module/user-module.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { HelloController } from './hello.controller';
+import { DefaultController } from './default/default.controller';
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { HelloController } from './hello.controller';
       })
     }),
   ],
-  controllers: [HelloController],
+  controllers: [DefaultController],
   providers: [],
 })
 export class AppModule { }

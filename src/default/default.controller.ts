@@ -1,10 +1,10 @@
 import { Controller, Get } from '@nestjs/common';
 
 @Controller()
-export class HelloController {
+export class DefaultController {
 
     @Get('/')
-    Hello(){
+    default(): string {
         return "Hello world!";
     }
 }
