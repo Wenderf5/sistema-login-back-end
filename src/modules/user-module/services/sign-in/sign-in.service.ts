@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { UserDto } from '../../controllers/sign-in/dto/user-dto/user-dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/dataBase/entities/user.entity';
+import { User } from '../../../../dataBase/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
