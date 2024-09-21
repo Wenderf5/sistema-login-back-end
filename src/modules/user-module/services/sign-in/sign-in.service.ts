@@ -30,7 +30,7 @@ export class SignInService {
             const token = jwt.sign({ user_name: userdb.user_name }, this.config.get('JWT_SECRET'));
             return res.cookie('auth_token', token, {
                 httpOnly: true,
-                secure: false,
+                secure: true,
                 sameSite: 'strict',
             }).status(HttpStatus.OK).send();
         } else {

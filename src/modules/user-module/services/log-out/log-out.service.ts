@@ -7,7 +7,7 @@ export class LogOutService {
         try {
             return res.clearCookie('auth_token', {
                 httpOnly: true,
-                secure: false,
+                secure: true,
                 sameSite: 'strict',
             }).status(HttpStatus.OK).send();
         } catch (error) {
