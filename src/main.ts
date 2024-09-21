@@ -2,9 +2,17 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import * as express from 'express';
+import { createServer, proxy } from 'aws-serverless-express';
+import { Server } from 'http';
+import { Handler, Context, Callback } from 'aws-lambda';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+const expressApp = express();
+let cachedServer: Server;
+
+async function bootstrapServer(): Promise<Server> {
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
 
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
@@ -19,10 +27,19 @@ async function bootstrap() {
     credentials: true
   });
 
-  app.use(cookieParser())
-  const PORT = 8080
-  await app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}!`)
-  });
+  app.use(cookieParser());
+
+  await app.init();
+  return createServer(expressApp);
 }
-bootstrap();
+
+export const handler: Handler = (event: any, context: Context, callback: Callback) => {
+  if (!cachedServer) {
+    bootstrapServer().then((server) => {
+      cachedServer = server;
+      return proxy(server, event, context, 'PROMISE').promise;
+    });
+  } else {
+    return proxy(cachedServer, event, context, 'PROMISE').promise;
+  }
+};
