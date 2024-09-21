@@ -11,7 +11,7 @@ const common_1 = require("@nestjs/common");
 const user_module_module_1 = require("./modules/user-module/user-module.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
-const hello_controller_1 = require("./hello-controller/hello.controller");
+const hello_controller_1 = require("./hello.controller");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;

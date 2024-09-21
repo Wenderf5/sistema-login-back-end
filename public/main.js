@@ -13,7 +13,7 @@ async function bootstrap() {
     }));
     app.enableCors({
         origin: 'https://sistema-login-two.vercel.app',
-        methods: 'GET,POST,PUT,DELETE,OPTIONS',
+        methods: 'GET,POST,PUT,DELETE',
         allowedHeaders: 'Content-Type, Authorization',
         credentials: true
     });

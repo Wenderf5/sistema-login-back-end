@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserModuleModule } from './modules/user-module/user-module.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { HelloController } from './hello-controller/hello.controller';
+import { HelloController } from './hello.controller';
 
 @Module({
   imports: [
