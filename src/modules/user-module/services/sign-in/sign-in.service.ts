@@ -30,9 +30,9 @@ export class SignInService {
             const token = jwt.sign({ user_name: userdb.user_name }, this.config.get('JWT_SECRET'));
             return res.cookie('auth_token', token, {
                 httpOnly: true,
-                secure: true,
-                sameSite: 'none',
-                domain: 'sistema-login-back-end-production.up.railway.app'
+                secure: false,
+                sameSite: 'strict',
+                //domain: 'sistema-login-back-end-production.up.railway.app'
             }).status(HttpStatus.OK).send();
         } else {
             return res.status(HttpStatus.UNAUTHORIZED).send();
