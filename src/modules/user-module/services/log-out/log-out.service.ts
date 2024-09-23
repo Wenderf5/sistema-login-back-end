@@ -8,7 +8,7 @@ export class LogOutService {
             return res.clearCookie('auth_token', {
                 httpOnly: true,
                 secure: true,
-                sameSite: 'strict',
+                sameSite: 'lax',
                 domain: 'sistema-login-back-end-production.up.railway.app'
             }).status(HttpStatus.OK).send();
         } catch (error) {
