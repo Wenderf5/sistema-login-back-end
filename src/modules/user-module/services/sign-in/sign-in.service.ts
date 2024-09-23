@@ -32,6 +32,7 @@ export class SignInService {
                 httpOnly: true,
                 secure: true,
                 sameSite: 'strict',
+                domain: 'sistema-login-back-end-production.up.railway.app'
             }).status(HttpStatus.OK).send();
         } else {
             return res.status(HttpStatus.UNAUTHORIZED).send();
