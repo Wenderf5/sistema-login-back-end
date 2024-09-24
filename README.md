@@ -28,7 +28,7 @@ Este projeto consiste em um sistema de login completo, com funcionalidades de au
   - Após o login, a sessão do usuário é salva no cookie `auth_token`.
 
 ## Como Executar o Projeto
-1. Clone o repositório do back-end e instale as dependências com:
+1. Clone o repositório do [back-end](https://github.com/Wenderf5/sistema-login-back-end) e instale as dependências com:
 
 ```bash
 $ npm install
@@ -36,15 +36,19 @@ $ npm install
 
 2. Renomeie o arquivo .env.example para .env e configure as variáveis de ambiente de acordo com suas credenciais e configurações.
 
-3. Clone o repositório do [front-end](https://github.com/Wenderf5/Sistema-login-front-end) e instale as dependências com:
+3. Entre no diretorio 'src/modules/user-module/services/sign-in' e modude a linha 33 para 'secure: false' e remova a linha 36.
+   
+4. Entre no diretorio 'src/modules/user-module/services/logout' e modude a linha 10 para 'secure: false' e remova a linha 13.
+
+5. Clone o repositório do [front-end](https://github.com/Wenderf5/Sistema-login-front-end) e instale as dependências com:
 
 ```bash
 $ npm install
 ```
 
-4. Renomeie o arquivo .env.example para .env e configure as variáveis de ambiente.
+6. Renomeie o arquivo .env.example para .env e configure as variáveis de ambiente.
 
-5. Baixe e importe o dump do banco de dados MySQL [neste link](https://drive.google.com/file/d/1x2zOlvJ22HoKpwhiYAM4gbdLN9CsL4FD/view?usp=sharing) e configure seu ambiente de desenvolvimento para conectá-lo corretamente.
+7. Baixe e importe o dump do banco de dados MySQL [neste link](https://drive.google.com/file/d/1x2zOlvJ22HoKpwhiYAM4gbdLN9CsL4FD/view?usp=sharing) e configure seu ambiente de desenvolvimento para conectá-lo corretamente.
 
 ## License
 
