@@ -9,6 +9,7 @@ export class LogOutService {
                 httpOnly: true,
                 secure: true,
                 sameSite: 'none',
+                maxAge: 60 * 60 * 24 * 7 * 1000,
                 domain: 'sistema-login-back-end-production.up.railway.app'
             }).status(HttpStatus.OK).send();
         } catch (error) {
